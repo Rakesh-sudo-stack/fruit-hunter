@@ -1,0 +1,88 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.main-div .party-page .action-buttons button{
+    height: 6rem;
+    width: 20rem;
+}
+
+.main-div{
+    height: 75vh;
+    width: 730px;
+    padding: 0;
+    background: rgba(42, 53, 36, 0.918);
+}
+
+.main-div .party-page{
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 16px;
+}
+
+.party-codes{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+.party-codes .create-party-code, .party-codes .join-party-code{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+}
+
+.party-codes .create-party-code #code{
+    font-size: 4rem;
+    color: transparent;
+    font-weight: 700;
+    background: linear-gradient(45deg,orange,green);
+    -webkit-background-clip: text;
+}
+
+.party-codes .join-party-code input[type="number"]{
+    text-align: center;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    border: none;
+    color:transparent;
+    background: linear-gradient(45deg,rgb(187, 30, 30),rgb(170, 14, 14),rgb(25, 143, 25),rgb(4, 88, 4));
+    -webkit-background-clip: text;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.party-codes .join-party-code #join-btn{
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.8rem;
+    color: yellow;
+    background-color: rgb(202, 46, 46);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.party-codes .join-party-code input[type="number"]:focus{
+    outline: none;
+}
+
+.party-codes .create-party-code p, .party-codes .join-party-code p{
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    max-width: 80%;
+}

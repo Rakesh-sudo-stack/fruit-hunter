@@ -4,9 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/partystyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <title>Fruit Hunter</title>
 </head>
 <body>
-    <!-- beginning of party.html -->
+    <div class="fruit-hunter-anime"></div>
+    <div class="main-div">
+        <div class="game-name"><span>Fruit</span> Hunter</div>
+        <div class="party-page">
+            <div class="action-buttons">
+                <button onclick="createPartyPage()">
+                    Create Party
+                </button>
+                <button  onclick="joinPartyPage()">
+                    Join Party
+                </button>
+            </div>
+        </div>
+        <div class="party-codes">
+            <div class="create-party-code">
+                <div id="code">28705</div>
+                <p>Share this code with your friend, the game will automatically begin once your friend joins the party</p>
+                <div class="code"></div>
+            </div>
+            <div class="join-party-code">
+                <p>Enter the code that you have got from your friend.</p>
+                <input type="number" name="" id="roomcode" placeholder="Enter code" maxlength="5" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <button id="join-btn">Join</button>
+            </div>
+        </div>
+    </div>
+    <script defer src="./js/party.js"></script>
 </body>
 </html>
