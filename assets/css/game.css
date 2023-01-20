@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bakbak+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    width: 100vw;
+    background: url(../img/junglebg.webp);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+.game-name{
+    position: absolute;
+    color: green;
+    font-size:4.2rem;
+    font-weight: 700;
+    font-family: 'Permanent Marker', cursive;
+    letter-spacing: 5px;
+    width: 100%;
+    top: 0%;
+    left: 35%;
+}
+.game-name span{
+    color: #ff4800;
+}
+.main-div{
+    margin-top: 20px;
+    height: 80vh;
+    width: 94vw;
+    background: rgba(42, 53, 36, 0.918);
+    padding: 1rem;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+}

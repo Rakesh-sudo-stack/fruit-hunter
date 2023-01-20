@@ -71,6 +71,7 @@ input::-webkit-inner-spin-button {
     border-radius: 1rem;
     font-size: 1.8rem;
     color: yellow;
+    z-index: 6;
     background-color: rgb(202, 46, 46);
     font-weight: 700;
     cursor: pointer;
@@ -85,4 +86,10 @@ input::-webkit-inner-spin-button {
     font-size: 2rem;
     font-weight: 700;
     max-width: 80%;
+}
+
+#party-not-found-text{
+    color: red;
+    font-weight: 700;
+    font-size: 1.4rem;
 }

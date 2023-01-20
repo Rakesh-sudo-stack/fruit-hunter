@@ -31,11 +31,13 @@
             </div>
             <div class="join-party-code">
                 <p>Enter the code that you have got from your friend.</p>
-                <input type="number" name="" id="roomcode" placeholder="Enter code" maxlength="5" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-                <button id="join-btn">Join</button>
+                <input type="number" name="" id="roomcode" placeholder="Enter code" maxlength="3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <button id="join-btn" onclick="joinRoom()">Join</button>
+                <p id="party-not-found-text"></p>
             </div>
         </div>
     </div>
+    <script defer src="/socket.io/socket.io.js"></script>
     <script defer src="./js/party.js"></script>
 </body>
 </html>
