@@ -8,7 +8,7 @@
     box-sizing: border-box;
 }
 
-body{
+.main-div{
     height: 100vh;
     width: 100vw;
     background: url(../img/junglebg.webp);
@@ -100,7 +100,7 @@ body{
     margin-top: 3.5rem;
 }
 
-.you{
+#you{
     position: absolute;
     height: 65px;
     width: 80px;
@@ -108,7 +108,7 @@ body{
     background-repeat: no-repeat;
 }
 
-.opponent{
+#opponent{
     position: absolute;
     height:65px;
     width: 80px;

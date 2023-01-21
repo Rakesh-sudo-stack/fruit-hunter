@@ -43,8 +43,52 @@ socket.on('room-not-found',()=>{
     setTimeout(()=>{document.querySelector('#party-not-found-text').innerHTML = '';},2000)
 });
 
+let players = {
+    you:'',
+    opponent:''
+}
+
+const game = () => {
+    window.requestAnimationFrame(game);
+}
+
+const startGame = () => {
+    window.requestAnimationFrame(game);
+    let gameArea = document.querySelector('.game-area');
+
+    let you = document.createElement('div');
+    you.id = 'you';
+    gameArea.appendChild(you);
+
+    let oppo = document.createElement('div');
+    oppo.id = 'opponent';
+    gameArea.appendChild(oppo);
+
+    let player1 = document.querySelector('#you');
+    let player2 = document.querySelector('#opponent');
+    console.log(document.querySelector('#you').getBoundingClientRect(),player2.getBoundingClientRect())
+    
+    players.you = {
+        height:player1.offsetHeight,
+        width:player1.offsetWidth,
+        speed:5,
+        x:player1.offsetLeft,
+        y:player1.offsetTop
+    }
+    
+    players.opponent = {
+        height:player2.offsetHeight,
+        width:player2.offsetWidth,
+        speed:5,
+        x:player2.offsetLeft,
+        y:player2.offsetTop
+    }
+
+    console.log(players.you,players.opponent);
+}
+
 function prepareToStart(){
-    document.querySelector('body').innerHTML = `
+    document.querySelector('.main-div').innerHTML = `
     <div class="game-name"><span>Fruit</span> Hunter</div>
     <div class="time">
         <p>Time: </p>
@@ -61,9 +105,9 @@ function prepareToStart(){
         </div>
     </div>
     <div class="game-area">
-        <div class="you"></div>
-        <div class="opponent"></div>
     </div>
+    <script defer src="/socket.io/socket.io.js"></script>
+    <script defer src="./js/party.js"></script>
     `;
     
     document.querySelectorAll('style,link[rel="stylesheet"]').forEach(
@@ -75,6 +119,8 @@ function prepareToStart(){
     link.type = 'text/css';
     link.href = './css/game.css';
     head.appendChild(link);
+
+    startGame();
 }
 
 socket.on('join-game',(code)=>{
