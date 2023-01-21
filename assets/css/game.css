@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bakbak+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
 
 *{
     margin: 0;
@@ -18,6 +19,63 @@ body{
     position: relative;
     overflow: hidden;
 }
+.scores{
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translate(-50%,-50%);
+}
+.scores .your-score, .scores .oppo-score{
+    background: #B2F73A;
+    border: 5px solid rgb(134, 45, 45); 
+    margin: .5rem;
+}
+
+.scores .your-score p, .scores .oppo-score p{
+    color: rgb(255, 226, 224);
+    font-size: 2rem;
+    /* font-weight: 200; */
+    background-color: rgb(196, 34, 13);
+    text-align: center;
+    padding: 0 1rem;
+    letter-spacing: 1px;
+    font-family: 'Lilita One';
+}
+
+.scores .your-score #score, .scores .oppo-score #oppo-score{
+    color: rgb(14, 83, 20);
+    font-size: 2.7rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.time{
+    position: absolute;
+    top: 50%;
+    left: 85%;
+    transform: translate(-50%,-50%);
+    background: rgb(209, 240, 36);
+    border: 5px solid rgb(134, 45, 45);
+}
+
+.time p{
+    color: rgb(255, 226, 224);
+    font-size: 2rem;
+    /* font-weight: 700; */
+    background-color: rgb(196, 35, 13);
+    text-align: center;
+    padding: 0 1rem;
+    letter-spacing: 1px;
+    font-family: 'Lilita One';
+}
+
+.time #time{
+    color: rgb(14, 83, 20);
+    font-size: 2.7rem;
+    text-align: center;
+    font-weight: 700;
+}
+
 .game-name{
     position: absolute;
     color: green;
@@ -32,14 +90,29 @@ body{
 .game-name span{
     color: #ff4800;
 }
-.main-div{
+.game-area{
     margin-top: 20px;
     height: 80vh;
-    width: 94vw;
-    background: rgba(42, 53, 36, 0.918);
+    width: 100vh;
+    background: rgba(53, 19, 17, 0.781);
     padding: 1rem;
-    display: flex;
-    text-align: center;
-    justify-content: center;
     position: relative;
+    margin-top: 3.5rem;
+}
+
+.you{
+    position: absolute;
+    height: 65px;
+    width: 80px;
+    background: url(../img/character-1-top.png);
+    background-repeat: no-repeat;
+}
+
+.opponent{
+    position: absolute;
+    height:65px;
+    width: 80px;
+    background: url(../img/character-1-bottom.png);
+    background-repeat: no-repeat;
+    right: 20px;
 }
