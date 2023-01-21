@@ -44,86 +44,92 @@ socket.on('room-not-found',()=>{
 });
 
 let players = {
-    you:'',
-    opponent:''
+    you:{},
+    opponent:{}
+}
+
+let keys = {
+    ArrowUp : false,
+    ArrowDown : false,
+    ArrowLeft : false,
+    ArrowRight : false
 }
 
 const game = () => {
+    if(keys.ArrowUp){
+        players.you.y -= 5;
+    }
+    if(keys.ArrowDown){
+        players.you.y += 5;
+    }
+    if(keys.ArrowLeft){
+        players.you.x -= 5;
+    }
+    if(keys.ArrowRight){
+        players.you.x += 5;
+    }
+    document.querySelector('#you').style.top = players.you.y+"px";
+    document.querySelector('#you').style.left = players.you.x+"px";
+    socket.emit('player-move',{x:players.you.x,y:players.you.y});
     window.requestAnimationFrame(game);
 }
 
 const startGame = () => {
     window.requestAnimationFrame(game);
+
     let gameArea = document.querySelector('.game-area');
 
-    let you = document.createElement('div');
-    you.id = 'you';
-    gameArea.appendChild(you);
+    let el1 = document.createElement('div');
+    el1.id = 'you';
+    gameArea.appendChild(el1);
 
-    let oppo = document.createElement('div');
-    oppo.id = 'opponent';
-    gameArea.appendChild(oppo);
+    let el2 = document.createElement('div');
+    el2.id = 'opponent';
+    gameArea.appendChild(el2);
 
-    let player1 = document.querySelector('#you');
-    let player2 = document.querySelector('#opponent');
-    console.log(document.querySelector('#you').getBoundingClientRect(),player2.getBoundingClientRect())
-    
+    let yourpos = document.querySelector('#you').getBoundingClientRect();
+    let oppopos = document.querySelector('#opponent').getBoundingClientRect();
+
     players.you = {
-        height:player1.offsetHeight,
-        width:player1.offsetWidth,
+        height:yourpos.height,
+        width:yourpos.width,
         speed:5,
-        x:player1.offsetLeft,
-        y:player1.offsetTop
-    }
-    
-    players.opponent = {
-        height:player2.offsetHeight,
-        width:player2.offsetWidth,
-        speed:5,
-        x:player2.offsetLeft,
-        y:player2.offsetTop
+        x:yourpos.x,
+        y:yourpos.y
     }
 
-    console.log(players.you,players.opponent);
+    players.opponent = {
+        height:oppopos.height,
+        width:oppopos.width,
+        speed:5,
+        x:oppopos.x,
+        y:oppopos.y
+    }
+
+    document.addEventListener('keydown',(e)=>{
+        keys[e.key] = true;
+    })
+
+    document.addEventListener('keyup',(e)=>{
+        keys[e.key] = false;
+    })
 }
 
 function prepareToStart(){
-    document.querySelector('.main-div').innerHTML = `
-    <div class="game-name"><span>Fruit</span> Hunter</div>
-    <div class="time">
-        <p>Time: </p>
-        <div id="time">60</div>
-    </div>
-        <div class="scores">
-        <div class="your-score">
-            <p>Your score</p>
-            <div id="score">0</div>
-        </div>
-        <div class="oppo-score">
-            <p>Rival's score</p>
-            <div id="oppo-score">0</div>
-        </div>
-    </div>
-    <div class="game-area">
-    </div>
-    <script defer src="/socket.io/socket.io.js"></script>
-    <script defer src="./js/party.js"></script>
-    `;
-    
-    document.querySelectorAll('style,link[rel="stylesheet"]').forEach(
-        item => item.remove()
-    );
-    let head = document.getElementsByTagName('HEAD')[0];
-    let link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = './css/game.css';
-    head.appendChild(link);
-
-    startGame();
+    document.querySelector('.main-div').style.display = "none";
+    document.querySelector('.container').style.display = "flex";
+    setTimeout(() => {
+        document.querySelector('.count-down').style.display='none';
+        startGame();
+    }, 4000);
 }
 
 socket.on('join-game',(code)=>{
     console.log(`Joined game ${code}`);
     prepareToStart();
+})
+
+socket.on('update-move',(pos)=>{
+    document.querySelector('#opponent').style.top = pos.y+'px';
+    document.querySelector('#opponent').style.left = pos.x+'px';
 })

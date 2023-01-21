@@ -47,6 +47,10 @@ io.on('connection', (socket) => {
       socket.emit('room-not-found')
     }
   })
+
+  socket.on('player-move',(pos)=>{
+    socket.to(rooms[socket.id]).emit('update-move',pos);
+  })
   
   socket.on('disconnect', () => {
     console.log('user disconnected');

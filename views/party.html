@@ -7,7 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="./css/global.css">
     <link rel="stylesheet" href="./css/partystyle.css">
+    <link rel="stylesheet" href="./css/game.css">
     <title>Fruit Hunter</title>
+    <style>
+        .container{
+            display: none;
+        }
+        .game-name{
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+    </style>
 </head>
 <body>
     <div class="fruit-hunter-anime"></div>
@@ -36,6 +46,27 @@
                 <p id="party-not-found-text"></p>
             </div>
         </div>
+    </div>
+    <div class="container">
+        <div class="game-name"><span>Fruit</span> Hunter</div>
+        <div class="time">
+            <p>Time: </p>
+            <div id="time">60</div>
+        </div>
+            <div class="scores">
+            <div class="your-score">
+                <p>Your score</p>
+                <div id="score">0</div>
+            </div>
+            <div class="oppo-score">
+                <p>Rival's score</p>
+                <div id="oppo-score">0</div>
+            </div>
+        </div>
+        <div class="game-area">
+            
+        </div>
+        <div class="count-down"></div>
     </div>
     <script defer src="/socket.io/socket.io.js"></script>
     <script defer src="./js/party.js"></script>
