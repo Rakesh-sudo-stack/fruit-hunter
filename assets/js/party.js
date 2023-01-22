@@ -113,6 +113,7 @@ const startGame = () => {
     document.addEventListener('keyup',(e)=>{
         keys[e.key] = false;
     })
+    bgMusic.play();
 }
 
 function prepareToStart(){
