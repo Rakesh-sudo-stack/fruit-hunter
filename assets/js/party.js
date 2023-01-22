@@ -5,8 +5,8 @@ let bgMusic = new Audio("../img/background-music.mp3");
 // Generates random five digit number
 let code;
 const numgenerator = () => {
-    let minm = 100;
-    let maxm = 999;
+    let minm = 10000;
+    let maxm = 99999;
     let code = Math.floor(Math.random() * (maxm - minm + 1)) + minm;
     return code;
 }
@@ -43,6 +43,14 @@ socket.on('room-not-found',()=>{
     setTimeout(()=>{document.querySelector('#party-not-found-text').innerHTML = '';},2000)
 });
 
+let host = false;
+let yourScore = 0;
+let rivalScore = 0;
+let points = {
+    Apple:150,
+    Orange:100,
+    Banana:50
+}
 let players = {
     you:{},
     opponent:{}
@@ -55,19 +63,41 @@ let keys = {
     ArrowRight : false
 }
 
+let boxRect;
+
+const checkCollision = (item1,item2) => {
+    item1Rect = item1.getBoundingClientRect();
+    item2Rect = item2.getBoundingClientRect();
+    return !((item1Rect.bottom < item2Rect.top) || (item1Rect.top > item2Rect.bottom) || (item1Rect.right < item2Rect.left) || 
+    (item1Rect.left > item2Rect.right));
+}
+
 const game = () => {
-    if(keys.ArrowUp){
+    if(keys.ArrowUp && players.you.y>0){
         players.you.y -= 5;
     }
-    if(keys.ArrowDown){
+    if(keys.ArrowDown && players.you.y<boxRect.height - players.you.height){
         players.you.y += 5;
     }
-    if(keys.ArrowLeft){
+    if(keys.ArrowLeft && players.you.x>0){
         players.you.x -= 5;
     }
-    if(keys.ArrowRight){
+    if(keys.ArrowRight && players.you.x<boxRect.width - players.you.width){
         players.you.x += 5;
     }
+    let you = document.querySelector('#you');
+    let fruits = document.querySelectorAll('.fruit');
+    try{
+    Array.from(fruits.forEach((fruit)=>{
+        if(checkCollision(you,fruit)){
+            fruit.parentNode.removeChild(fruit);
+            yourScore += points[fruit.classList[1]];
+            score.innerHTML = yourScore;
+            socket.emit('fruit-eaten',{id:fruit.id,score:yourScore})
+        }
+    }))
+    }catch(e){}
+
     document.querySelector('#you').style.top = players.you.y+"px";
     document.querySelector('#you').style.left = players.you.x+"px";
     socket.emit('player-move',{x:players.you.x,y:players.you.y});
@@ -113,7 +143,34 @@ const startGame = () => {
     document.addEventListener('keyup',(e)=>{
         keys[e.key] = false;
     })
+
+    boxRect = document.querySelector('.game-area').getBoundingClientRect();
+    if(host){
+        socket.emit('spawn-fruit')
+    }
     bgMusic.play();
+    socket.on('add-fruit',(fruit)=>{
+        console.log(fruit);
+        let myfruit = document.createElement('div');
+        myfruit.className = `fruit ${fruit.fruit}`;
+        myfruit.id = fruit.id;
+        myfruit.style.top = fruit.y+"px";
+        myfruit.style.left = fruit.x+"px";
+        gameArea.appendChild(myfruit);
+        if(host){
+            let time = Math.floor(Math.random() * (1500 - 500 + 1)) + 500;
+            setTimeout(() => {
+                socket.emit('spawn-fruit');                
+            }, time);
+        }
+    })
+    socket.on('update-score',(data)=>{
+        let fruit = document.querySelector(`#${data.id}`);
+        fruit.parentNode.removeChild(fruit);
+        rivalScore = data.score;
+        document.querySelector('#oppo-score').innerHTML = rivalScore;
+    })
+    
 }
 
 function prepareToStart(){
@@ -133,4 +190,8 @@ socket.on('join-game',(code)=>{
 socket.on('update-move',(pos)=>{
     document.querySelector('#opponent').style.top = pos.y+'px';
     document.querySelector('#opponent').style.left = pos.x+'px';
+})
+
+socket.on('be-host',()=>{
+    host = true;
 })

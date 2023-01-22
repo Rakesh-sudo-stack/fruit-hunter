@@ -22,12 +22,26 @@ app.get('/party', (req, res) => {
 });
 
 let rooms = {};
+const fruits = ['Apple','Banana','Orange'];
+
+const generateRandomID = (myLength) => {
+  const chars =
+    "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
+  const randomArray = Array.from(
+    { length: myLength },
+    (v, k) => chars[Math.floor(Math.random() * chars.length)]
+  );
+
+  const randomString = randomArray.join("");
+  return randomString;
+};
 
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on('create-room',(code)=>{
     rooms[socket.id] = code;
     socket.join(code);
+    io.to(code).emit('be-host');
     console.log(rooms);
   })
   socket.on('join-room',(code)=>{
@@ -48,8 +62,20 @@ io.on('connection', (socket) => {
     }
   })
 
+  socket.on('spawn-fruit',()=>{
+    let x = Math.floor((Math.random() * 650) - 50);
+    let y = Math.floor((Math.random() * 550) - 50);
+    let fruit = fruits[Math.floor(Math.random() * 3)];
+    let id = generateRandomID(10);
+    io.to(rooms[socket.id]).emit('add-fruit',{x,y,fruit,id});
+  })
+
   socket.on('player-move',(pos)=>{
     socket.to(rooms[socket.id]).emit('update-move',pos);
+  })
+
+  socket.on('fruit-eaten',(data)=>{
+    socket.to(rooms[socket.id]).emit('update-score',data);
   })
   
   socket.on('disconnect', () => {
