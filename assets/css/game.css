@@ -20,7 +20,7 @@
     overflow: hidden;
 }
 .container .game-name{
-    top: 5%;
+    top: 1%;
 }
 .scores{
     position: absolute;
@@ -170,4 +170,13 @@
 .fruit.Orange{
     background: url(../img/orange.png);
     background-size: cover;
+}
+
+.bomb{
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    background: url('../img/bomb.png');
+    background-size: cover;
+    z-index: 3;
 }

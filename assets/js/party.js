@@ -98,6 +98,18 @@ const game = () => {
     }))
     }catch(e){}
 
+    let bombs = document.querySelectorAll('.bomb');
+    try{
+    Array.from(bombs.forEach((bomb)=>{
+        if(checkCollision(you,bomb)){
+            bomb.parentNode.removeChild(bomb);
+            yourScore -= Math.floor(Math.random() * (300 - 200 + 1)) + 200;
+            score.innerHTML = yourScore;
+            socket.emit('fruit-eaten',{id:bomb.id,score:yourScore})
+        }
+    }))
+    }catch(e){}
+
     document.querySelector('#you').style.top = players.you.y+"px";
     document.querySelector('#you').style.left = players.you.x+"px";
     socket.emit('player-move',{x:players.you.x,y:players.you.y});
@@ -171,6 +183,27 @@ const startGame = () => {
         document.querySelector('#oppo-score').innerHTML = rivalScore;
     })
     
+    if(host){
+        let timeToSpawnBomb = Math.floor((Math.random() * (15000 - 5000 + 1)) + 5000);
+        setTimeout(() => {
+            socket.emit('spawn-bomb');
+        }, timeToSpawnBomb);
+    }
+
+    socket.on('add-bomb',(bombInfo)=>{
+        let bomb = document.createElement('div');
+        bomb.className = 'bomb';
+        bomb.id = bombInfo.id;
+        bomb.style.top = bombInfo.y+"px";
+        bomb.style.left = bombInfo.x+"px";
+        gameArea.appendChild(bomb);
+            if(host){
+            let timeToSpawnBomb = Math.floor((Math.random() * (15000 - 5000 + 1)) + 5000);
+            setTimeout(() => {
+                socket.emit('spawn-bomb');
+            }, timeToSpawnBomb);
+        }
+    })
 }
 
 function prepareToStart(){

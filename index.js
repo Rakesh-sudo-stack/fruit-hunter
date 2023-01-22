@@ -77,6 +77,12 @@ io.on('connection', (socket) => {
   socket.on('fruit-eaten',(data)=>{
     socket.to(rooms[socket.id]).emit('update-score',data);
   })
+  socket.on('spawn-bomb',()=>{
+    let x = Math.floor((Math.random() * 650) - 50);
+    let y = Math.floor((Math.random() * 550) - 50);
+    let id = generateRandomID(10);
+    io.to(rooms[socket.id]).emit('add-bomb',{x,y,id});
+  })
   
   socket.on('disconnect', () => {
     console.log('user disconnected');
