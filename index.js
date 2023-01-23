@@ -23,6 +23,7 @@ app.get('/party', (req, res) => {
 
 let rooms = {};
 const fruits = ['Apple','Banana','Orange'];
+let powerups = ['speed','snowflake','jumbo'];
 
 const generateRandomID = (myLength) => {
   const chars =
@@ -68,6 +69,22 @@ io.on('connection', (socket) => {
     let fruit = fruits[Math.floor(Math.random() * 3)];
     let id = generateRandomID(10);
     io.to(rooms[socket.id]).emit('add-fruit',{x,y,fruit,id});
+  })
+
+  socket.on('spawn-powerup',()=>{
+    let x = Math.floor((Math.random() * 650) - 50);
+    let y = Math.floor((Math.random() * 550) - 50);
+    let powerup = powerups[Math.floor(Math.random() * 3)];
+    let id = generateRandomID(10);
+    io.to(rooms[socket.id]).emit('add-powerup',{x,y,powerup,id});
+  })
+
+  socket.on('snow-flake-used',()=>{
+    socket.to(rooms[socket.id]).emit('freeze-opponent');
+  })
+
+  socket.on('jumbo-used',()=>{
+    socket.to(rooms[socket.id]).emit('jumbo-opponent');
   })
 
   socket.on('player-move',(pos)=>{

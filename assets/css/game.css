@@ -112,6 +112,16 @@
     background-size: cover;
 }
 
+#you.frozen{
+    background-image:linear-gradient(rgba(76, 160, 202, 0.5),rgba(0, 170, 255, 0.623)),linear-gradient(rgba(170, 86, 170, 0.493),rgba(105, 7, 105, 0.521)), url('../img/character-1.png');
+    border-radius: 1rem;
+}
+
+#opponent.frozen{
+    background-image:linear-gradient(rgba(76, 160, 202, 0.5),rgba(0, 170, 255, 0.623)),linear-gradient(rgba(170, 86, 170, 0.493),rgba(105, 7, 105, 0.521)), url('../img/character-2.png');
+    border-radius: 1rem;
+}
+
 #opponent{
     position: absolute;
     height:90px;
@@ -179,4 +189,47 @@
     background: url('../img/bomb.png');
     background-size: cover;
     z-index: 3;
+}
+
+.power-up{
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    z-index: 3;
+    animation: powerup 1.2s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.power-up.speed{
+    background: url(../img/speed.png);
+    margin: auto;
+    background-size: cover;
+    background-position: center;
+}
+
+.power-up.snowflake{
+    margin: auto;
+    background: url(../img/snowflake.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.power-up.jumbo{
+    margin: auto;
+    background: url(../img/jumbo.png);
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+@keyframes powerup{
+    0%{
+        width:87px;
+    height:87px;    }
+    50%{width:70px;
+        height:70px;}
+    100%{
+        width:87px;
+    height:87px;    }
 }

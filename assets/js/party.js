@@ -65,6 +65,60 @@ let keys = {
 
 let boxRect;
 
+const giveSpeed = () => {
+    players.you.speed *= 2;
+    setTimeout(() => {
+        players.you.speed /= 2;
+    }, 7000);
+}
+
+const giveSnowflake = () => {
+    document.querySelector('#opponent').className = 'frozen';
+    setTimeout(() => {
+        document.querySelector('#opponent').className = '';
+    }, 3000);
+    socket.emit('snow-flake-used');
+}
+
+socket.on('freeze-opponent',()=>{
+    console.log('freeze');
+    let curSpeed = players.you.speed;
+    players.you.speed = 0;
+    document.querySelector('#you').className = 'frozen';
+    document.querySelector('#you')
+    setTimeout(() => {
+        players.you.speed = curSpeed;
+        document.querySelector('#you').className = '';
+    }, 3000);
+})
+
+const giveJumbo = () => {
+    players.you.height += 20;
+    players.you.width += 20;
+    document.querySelector('#you').style.height = players.you.height+'px';
+    document.querySelector('#you').style.width = players.you.width+'px';
+    socket.emit('jumbo-used');
+    setTimeout(() => {
+        players.you.height -= 20;
+        players.you.width -= 20;
+        document.querySelector('#you').style.height = players.you.height+'px';
+        document.querySelector('#you').style.width = players.you.width+'px';
+    }, 7000);
+}
+
+socket.on('jumbo-opponent',()=>{
+    players.opponent.height += 20;
+    players.opponent.width += 20;
+    document.querySelector('#opponent').style.height = players.opponent.height+'px';
+    document.querySelector('#opponent').style.width = players.opponent.width+'px';
+    setTimeout(() => {
+        players.opponent.height -= 20;
+        players.opponent.width -= 20;
+        document.querySelector('#opponent').style.height = players.opponent.height+'px';
+        document.querySelector('#opponent').style.width = players.opponent.width+'px';
+    }, 7000);
+})
+
 const checkCollision = (item1,item2) => {
     item1Rect = item1.getBoundingClientRect();
     item2Rect = item2.getBoundingClientRect();
@@ -74,16 +128,16 @@ const checkCollision = (item1,item2) => {
 
 const game = () => {
     if(keys.ArrowUp && players.you.y>0){
-        players.you.y -= 5;
+        players.you.y -= players.you.speed;
     }
     if(keys.ArrowDown && players.you.y<boxRect.height - players.you.height){
-        players.you.y += 5;
+        players.you.y += players.you.speed;
     }
     if(keys.ArrowLeft && players.you.x>0){
-        players.you.x -= 5;
+        players.you.x -= players.you.speed;
     }
     if(keys.ArrowRight && players.you.x<boxRect.width - players.you.width){
-        players.you.x += 5;
+        players.you.x += players.you.speed;
     }
     let you = document.querySelector('#you');
     let fruits = document.querySelectorAll('.fruit');
@@ -106,6 +160,23 @@ const game = () => {
             yourScore -= Math.floor(Math.random() * (300 - 200 + 1)) + 200;
             score.innerHTML = yourScore;
             socket.emit('fruit-eaten',{id:bomb.id,score:yourScore})
+        }
+    }))
+    }catch(e){}
+
+    let powerups = document.querySelectorAll('.power-up');
+    try{
+    Array.from(powerups.forEach((powerup)=>{
+        if(checkCollision(you,powerup)){
+            powerup.parentNode.removeChild(powerup);
+            socket.emit('fruit-eaten',{id:powerup.id,score:yourScore})
+            if(powerup.classList[1] == 'speed'){
+                giveSpeed();
+            }else if(powerup.classList[1] == 'snowflake'){
+                giveSnowflake();
+            }if(powerup.classList[1] == 'jumbo'){
+                giveJumbo();
+            }
         }
     }))
     }catch(e){}
@@ -202,6 +273,26 @@ const startGame = () => {
             setTimeout(() => {
                 socket.emit('spawn-bomb');
             }, timeToSpawnBomb);
+        }
+    })
+    if(host){
+        let timeToSpawnPowerUp = Math.floor((Math.random() * (25000 - 15000 + 1)) + 15000);
+        setTimeout(() => {
+            socket.emit('spawn-powerup');
+        }, timeToSpawnPowerUp);
+    }
+    socket.on('add-powerup',(powerupInfo)=>{
+        let powerup = document.createElement('div');
+        powerup.className = `power-up ${powerupInfo.powerup}`;
+        powerup.id = powerupInfo.id;
+        powerup.style.top = powerupInfo.y+"px";
+        powerup.style.left = powerupInfo.x+"px";
+        gameArea.appendChild(powerup);
+            if(host){
+            let timeToSpawnPowerup = Math.floor((Math.random() * (25000 - 15000 + 1)) + 15000);
+            setTimeout(() => {
+                socket.emit('spawn-powerup');
+            }, timeToSpawnPowerup);
         }
     })
 }
