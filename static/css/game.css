@@ -11,7 +11,7 @@
 .container{
     height: 100vh;
     width: 100vw;
-    background: url(../img/junglebg.webp);
+    background: url(../assets/img/junglebg.webp);
     background-size: cover;
     display: flex;
     align-items: center;
@@ -108,17 +108,17 @@
     position: absolute;
     height: 90px;
     width: 60px;
-    background: url(../img/character-1.png);
+    background: url(../assets/img/character-1.png);
     background-size: cover;
 }
 
 #you.frozen{
-    background-image:linear-gradient(rgba(76, 160, 202, 0.5),rgba(0, 170, 255, 0.623)),linear-gradient(rgba(170, 86, 170, 0.493),rgba(105, 7, 105, 0.521)), url('../img/character-1.png');
+    background-image:linear-gradient(rgba(76, 160, 202, 0.5),rgba(0, 170, 255, 0.623)),linear-gradient(rgba(170, 86, 170, 0.493),rgba(105, 7, 105, 0.521)), url('../assets/img/character-1.png');
     border-radius: 1rem;
 }
 
 #opponent.frozen{
-    background-image:linear-gradient(rgba(76, 160, 202, 0.5),rgba(0, 170, 255, 0.623)),linear-gradient(rgba(170, 86, 170, 0.493),rgba(105, 7, 105, 0.521)), url('../img/character-2.png');
+    background-image:linear-gradient(rgba(76, 160, 202, 0.5),rgba(0, 170, 255, 0.623)),linear-gradient(rgba(170, 86, 170, 0.493),rgba(105, 7, 105, 0.521)), url('../assets/img/character-2.png');
     border-radius: 1rem;
 }
 
@@ -126,7 +126,7 @@
     position: absolute;
     height:90px;
     width: 60px;
-    background: url(../img/character-2.png);
+    background: url(../assets/img/character-2.png);
     background-size: cover;
     right: 0%;
 }
@@ -168,17 +168,17 @@
 }
 
 .fruit.Apple{
-    background: url(../img/apple.png);
+    background: url(../assets/img/apple.png);
     background-size: cover;
 }
 
 .fruit.Banana{
-    background: url(../img/banana.png);
+    background: url(../assets/img/banana.png);
     background-size: cover;
 }
 
 .fruit.Orange{
-    background: url(../img/orange.png);
+    background: url(../assets/img/orange.png);
     background-size: cover;
 }
 
@@ -186,7 +186,7 @@
     height: 50px;
     width: 50px;
     position: absolute;
-    background: url('../img/bomb.png');
+    background: url('../assets/img/bomb.png');
     background-size: cover;
     z-index: 3;
 }
@@ -203,7 +203,7 @@
 }
 
 .power-up.speed{
-    background: url(../img/speed.png);
+    background: url(../assets/img/speed.png);
     margin: auto;
     background-size: cover;
     background-position: center;
@@ -211,14 +211,14 @@
 
 .power-up.snowflake{
     margin: auto;
-    background: url(../img/snowflake.png);
+    background: url(../assets/img/snowflake.png);
     background-size: cover;
     background-position: center;
 }
 
 .power-up.jumbo{
     margin: auto;
-    background: url(../img/jumbo.png);
+    background: url(../assets/img/jumbo.png);
     background-size: 100% 100%;
     background-position: center;
 }

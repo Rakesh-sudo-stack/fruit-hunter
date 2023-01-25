@@ -11,7 +11,7 @@
 body{
     height: 100vh;
     width: 100vw;
-    background: url(../img/junglebg.webp);
+    background: url(../assets/img/junglebg.webp);
     background-size: cover;
     display: flex;
     align-items: center;
@@ -97,7 +97,7 @@ body{
 .fruit-hunter-anime{
     height: 360px;
     width: 480px;
-    background: url('../img/fruithunteranime.gif');
+    background: url('../assets/gif/fruithunteranime.gif');
     z-index: 2;
     position: absolute;
     background-repeat: no-repeat;

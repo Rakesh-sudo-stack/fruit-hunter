@@ -93,3 +93,40 @@ input::-webkit-inner-spin-button {
     font-weight: 700;
     font-size: 1.4rem;
 }
+
+.game-over-page{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+.game-over-your-score, .game-over-oppo-score{
+    font-size: 4rem;
+    color: rgb(192, 44, 44);
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-flow: row;
+    -webkit-text-stroke: 1px rgb(175, 214, 84);
+}
+
+.game-over-your-score #game-over-score, .game-over-oppo-score #game-over-oppo-score{
+    color: rgba(18, 109, 74, 0.932);
+}
+
+.game-over-page .game-name{
+    top:5%;
+}
+
+.game-over-page p{
+    font-size: 4.5rem;
+    color: rgba(28, 64, 182, 0.897);
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-text-stroke:1px rgb(224, 47, 224);
+    margin-top: 2rem;
+}

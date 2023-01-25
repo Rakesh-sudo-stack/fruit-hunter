@@ -7,7 +7,7 @@ const io = new Server(server);
 
 const port = process.env.PORT || 3000;
 
-app.use(express.static(__dirname+'/assets'));
+app.use(express.static(__dirname+'/static'));
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname+'/index.html');
@@ -46,20 +46,20 @@ io.on('connection', (socket) => {
     console.log(rooms);
   })
   socket.on('join-room',(code)=>{
-    let roomFound = false;
+    let roomFound = 0;
     for (const item of Object.entries(rooms)) {
       if(item[1] == code){
-        roomFound = true;
+        roomFound++;
       }
     };
     
-    if(roomFound){
+    if(roomFound==1){
       rooms[socket.id] = code;
       socket.join(code);
       console.log(rooms);
       io.to(code).emit('join-game',code);
     }else{
-      socket.emit('room-not-found')
+      socket.emit('room-not-found',{playercount: roomFound})
     }
   })
 
@@ -99,6 +99,17 @@ io.on('connection', (socket) => {
     let y = Math.floor((Math.random() * 550) - 50);
     let id = generateRandomID(10);
     io.to(rooms[socket.id]).emit('add-bomb',{x,y,id});
+  })
+
+  socket.on('game-over',(scores)=>{
+    let code = rooms[socket.id];
+    socket.to(rooms[socket.id]).emit('show-score',scores);
+    for(let user in rooms){
+      if(rooms[user] == code){
+        delete rooms[user];
+      }
+      console.log(rooms)
+    }
   })
   
   socket.on('disconnect', () => {

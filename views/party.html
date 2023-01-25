@@ -67,7 +67,18 @@
         </div>
         <div class="count-down"></div>
     </div>
+    <div class="game-over-page">
+        <div class="game-name"><span>Fruit</span> Hunter</div>
+        <div class="game-over-your-score">
+            Your Score = <div id="game-over-score">54323</div>
+        </div>
+        <div class="game-over-oppo-score">
+            Rival's Score = <div id="game-over-oppo-score">45134</div>
+        </div>
+        <p id="score-difference">You won by 9199 points</p>
+    </div>
     <script defer src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script defer src="./js/party.js"></script>
 </body>
 </html>

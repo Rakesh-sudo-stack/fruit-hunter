@@ -1,6 +1,6 @@
 var socket = io();
 
-let bgMusic = new Audio("../img/background-music.mp3");
+let bgMusic = new Audio("../assets/sound/background-music.mp3");
 
 // Generates random five digit number
 let code;
@@ -15,6 +15,9 @@ let partyPage = document.querySelector('.party-page');
 let partyCodes = document.querySelector('.party-codes');
 let joinPartyCode = document.querySelector('.join-party-code');
 let createPartyCode = document.querySelector('.create-party-code');
+let host = false;
+let yrscore;
+let opposcore;
 
 const createPartyPage = () => {
     partyPage.style.display = "none";
@@ -38,12 +41,16 @@ const joinRoom = () => {
     socket.emit('join-room',parseInt(code));
 }
 
-socket.on('room-not-found',()=>{
-    document.querySelector('#party-not-found-text').innerHTML = "Party does not exist.";
-    setTimeout(()=>{document.querySelector('#party-not-found-text').innerHTML = '';},2000)
+socket.on('room-not-found',(data)=>{
+    if(data.playercount == 0){
+        document.querySelector('#party-not-found-text').innerHTML = "Party does not exist.";
+        setTimeout(()=>{document.querySelector('#party-not-found-text').innerHTML = '';},2000)
+    }else if(data.playercount == 2){
+        document.querySelector('#party-not-found-text').innerHTML = "Party is full.";
+        setTimeout(()=>{document.querySelector('#party-not-found-text').innerHTML = '';},2000)
+    }
 });
 
-let host = false;
 let yourScore = 0;
 let rivalScore = 0;
 let points = {
@@ -126,6 +133,32 @@ const checkCollision = (item1,item2) => {
     (item1Rect.left > item2Rect.right));
 }
 
+const gameOverPage = () => {
+    document.querySelector('.main-div').style.display = 'none';
+    document.querySelector('.container').style.display = 'none';
+    document.querySelector('.game-over-page').style.display = 'flex';
+    if(host){
+        socket.emit('game-over',{score:yourScore,opposcore:rivalScore});
+        document.querySelector('#game-over-score').innerHTML = yourScore;
+        document.querySelector('#game-over-oppo-score').innerHTML = rivalScore;
+        if(yourScore > rivalScore){
+            document.querySelector('#score-difference').innerHTML = `You won by ${yourScore - rivalScore} points!`;
+        }else if(rivalScore > yourScore){
+            document.querySelector('#score-difference').innerHTML = `You lost by ${rivalScore - yourScore} points!`;
+        }
+    }
+}
+socket.on('show-score',(scores)=>{
+    document.querySelector('#game-over-score').innerHTML = scores.opposcore;
+    document.querySelector('#game-over-oppo-score').innerHTML = scores.score;
+    console.log(scores)
+    if(scores.score > scores.opposcore){
+        document.querySelector('#score-difference').innerHTML = `You lost by ${scores.score - scores.opposcore} points!`;
+    }else if(scores.opposcore > scores.score){
+        document.querySelector('#score-difference').innerHTML = `You won by ${scores.opposcore - scores.score} points!`;
+    }
+})
+
 const game = () => {
     if(keys.ArrowUp && players.you.y>0){
         players.you.y -= players.you.speed;
@@ -187,6 +220,13 @@ const game = () => {
     window.requestAnimationFrame(game);
 }
 
+const gameOver = () => {
+    swal("Game Over!", "Check your score. ");
+    players.you.speed  = 0;
+    players.you.speed  = 0;
+    gameOverPage();
+}
+
 const startGame = () => {
     window.requestAnimationFrame(game);
 
@@ -227,13 +267,32 @@ const startGame = () => {
         keys[e.key] = false;
     })
 
+    let curmin = "2";
+    let cursec = "30";
+    document.querySelector('#time').innerHTML = `${curmin}:${cursec}`;
+
+    let updateTime = setInterval(() => {
+        cursec--;
+        if(cursec < 0){
+            curmin--;
+            cursec = "59";
+        }
+        if(cursec < 10){
+            cursec = `0${cursec}`
+        }
+        if(curmin == 0 && cursec == 0){
+            gameOver();
+            clearInterval(updateTime);
+        }
+        document.querySelector('#time').innerHTML = `${curmin}:${cursec}`;
+    }, 1000);
+
     boxRect = document.querySelector('.game-area').getBoundingClientRect();
     if(host){
         socket.emit('spawn-fruit')
     }
     bgMusic.play();
     socket.on('add-fruit',(fruit)=>{
-        console.log(fruit);
         let myfruit = document.createElement('div');
         myfruit.className = `fruit ${fruit.fruit}`;
         myfruit.id = fruit.id;
