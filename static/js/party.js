@@ -134,6 +134,7 @@ const checkCollision = (item1,item2) => {
 }
 
 const gameOverPage = () => {
+    bgMusic.pause();
     document.querySelector('.main-div').style.display = 'none';
     document.querySelector('.container').style.display = 'none';
     document.querySelector('.game-over-page').style.display = 'flex';
@@ -222,7 +223,6 @@ const game = () => {
 
 const gameOver = () => {
     swal("Game Over!", "Check your score. ");
-    players.you.speed  = 0;
     players.you.speed  = 0;
     gameOverPage();
 }

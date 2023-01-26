@@ -5,8 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/game.css">
+    <link rel="stylesheet" href="./css/partystyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <title>Fruit Hunter-Game</title>
+    <style>
+        .game-over-page{
+            display: none;
+            background:url('./assets/img/junglebg.webp');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .container{
+            display: none;
+        }
+        .game-name{
+            position: absolute;
+            text-align: center;
+            left: 50%;
+            top: 20px;
+            transform: translate(-50%,-50%);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -20,15 +39,16 @@
                 <p>Your score</p>
                 <div id="score">0</div>
             </div>
-            <div class="oppo-score">
-                <p>Rival's score</p>
-                <div id="oppo-score">0</div>
-            </div>
         </div>
         <div class="game-area">
-            <div class="you"></div>
-            <div class="opponent"></div>
         </div>
+        <div class="count-down"></div>
     </div>
+    <div class="game-over-page">
+        <div class="game-name"><span>Fruit</span> Hunter</div>
+        <p id="score-difference">Your final score is 9199 points</p>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="./js/game.js"></script>
 </body>
 </html>
