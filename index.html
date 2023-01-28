@@ -10,6 +10,10 @@
 </head>
 <body>
     <div class="fruit-hunter-anime"></div>
+    <div class="high-score">
+        <p>High score</p>
+        <div id="high-score">0</div>
+    </div>
     <div class="main-div">
         <div class="game-name"><span>Fruit</span> Hunter</div>
         <div class="action-buttons">
@@ -23,5 +27,9 @@
             </button>
         </div>
     </div>
+    <script>
+        let highScore = localStorage.getItem('highscore');
+        document.querySelector('#high-score').innerHTML = highScore;
+    </script>
 </body>
 </html>

@@ -122,6 +122,7 @@ const gameOverPage = () => {
 const gameOver = () => {
     swal("Game Over!", "Check your score. ");
     players.you.speed  = 0;
+    localStorage.setItem("highscore",yourScore);
     gameOverPage();
 }
 

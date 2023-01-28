@@ -105,3 +105,29 @@ body{
     left: 50%;
     transform: translate(-50%,-50%);
 }
+
+.high-score{
+    position: absolute;
+    right: 10px;top: 10px;
+    background: #B2F73A;
+    border: 5px solid rgb(134, 45, 45); 
+    margin: .5rem;
+}
+
+.high-score p{
+    color: rgb(255, 226, 224);
+    font-size: 2rem;
+    /* font-weight: 200; */
+    background-color: rgb(196, 34, 13);
+    text-align: center;
+    padding: 0 1rem;
+    letter-spacing: 1px;
+    font-family: 'Lilita One';
+}
+
+.high-score #high-score{
+    color: rgb(14, 83, 20);
+    font-size: 2.7rem;
+    text-align: center;
+    font-weight: 700;
+}
